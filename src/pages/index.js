@@ -9,22 +9,14 @@ import { Spiner } from '@/components/Spiner';
 
 export default function Home() {
 
-  const [venta, setVenta] = useState(null);
-  const [compra, setCompra] = useState(null);
-
+  const [data, setData] = useState(null);
   const [message, setMessage] = useState(null);
 
   useEffect(() => {
     const fetchData = () => {
 
-      GeneralService.getVenta().then((data) => {
-        setVenta(data);
-      }).catch((error) => {
-        setMessage(error.message);
-      });
-
-      GeneralService.getCompra().then((data) => {
-        setCompra(data);
+      GeneralService.getPrecio().then((data) => {
+        setData(data);
       }).catch((error) => {
         setMessage(error.message);
       });
@@ -41,7 +33,7 @@ export default function Home() {
     return () => clearInterval(intervalId);
   }, []);
 
-  if ((!venta || !compra) && !message) {
+  if (!data && !message) {
     return (
       <Spiner />
     );
@@ -53,29 +45,17 @@ export default function Home() {
     );
   }
 
-  const compraData = {
-    valor: compra.precio.compra.valor,
-    moneda: compra.precio.compra.moneda,
-    variacion: compra.precio.compra.variacion,
-  };
-
-  const ventaData = {
-    valor: venta.precio.venta.valor,
-    moneda: venta.precio.venta.moneda,
-    variacion: venta.precio.venta.variacion,
-  };
-
   return (
     <>      
       <Container>
         <h1>Inicio</h1>
-        <h2 className="text-center">{compra.nombreCompleto} ({compra.tipo})</h2>
+        <h2 className="text-center">{data.nombreCompleto} ({data.tipo})</h2>
         <Row className="justify-content-md-center pt-3">
           <Col xs lg="4">
-            <CustomCard data={compraData} tipo={"Compra"}/>
+            <CustomCard data={data.precio.compra} tipo={"Compra"}/>
           </Col>
           <Col xs lg="4">
-            <CustomCard data={ventaData} tipo={"Venta"} />
+            <CustomCard data={data.precio.venta} tipo={"Venta"} />
           </Col>
         </Row>
       </Container>

@@ -1,11 +1,7 @@
 import { get } from '@/utils/httpClient'
 
-const getVenta = () => {
-    return get('actual/venta');
-}
-
-const getCompra= () => {
-    return get('actual/compra');
+const getPrecio = () => {
+    return get('actual');
 }
 
 const getHistorico = () => {
@@ -13,8 +9,7 @@ const getHistorico = () => {
 }
 
 const GeneralService = {
-    getVenta,
-    getCompra,
+    getPrecio,
     getHistorico
 }
 

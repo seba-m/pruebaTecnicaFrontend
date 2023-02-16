@@ -4,13 +4,13 @@ const getPrecio = () => {
     return get('actual');
 }
 
-const getHistorico = () => {
-    return get('historico');
+const getHistorial = () => {
+    return get('historial');
 }
 
 const GeneralService = {
     getPrecio,
-    getHistorico
+    getHistorial
 }
 
 export default GeneralService;

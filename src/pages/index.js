@@ -1,11 +1,12 @@
-import CustomCard from '@/components/CustomCard';
 import { useState, useEffect } from 'react'
 
-import { Spinner, Container, Row, Col, Card } from 'react-bootstrap';
+import { CustomCard } from '@/components/CustomCard';
+import { Spiner } from '@/components/Spiner';
+
+import { Container, Row, Col } from 'react-bootstrap';
 
 import GeneralService from '@/Services/General.service';
 import Error from './_error';
-import { Spiner } from '@/components/Spiner';
 
 export default function Home() {
 
@@ -49,15 +50,19 @@ export default function Home() {
     <>      
       <Container>
         <h1>Inicio</h1>
-        <h2 className="text-center">{data.nombreCompleto} ({data.tipo})</h2>
-        <Row className="justify-content-md-center pt-3">
-          <Col xs lg="4">
-            <CustomCard data={data.precio.compra} tipo={"Compra"}/>
-          </Col>
-          <Col xs lg="4">
-            <CustomCard data={data.precio.venta} tipo={"Venta"} />
-          </Col>
-        </Row>
+        {
+          data.map((item, index) => {
+            return (
+              <Row className="justify-content-md-center pt-3" key={item}>
+                <h2 className="text-center">{item.nombreCompleto} ({item.tipo})</h2>
+                <Col xs lg="4">
+                  <CustomCard data={item} tipo={"Precio"} />
+                </Col>
+              </Row>
+            )
+          }
+          )
+        }
       </Container>
     </>
   )

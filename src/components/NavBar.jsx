@@ -2,7 +2,7 @@ import { Navbar, Nav, Container } from 'react-bootstrap';
 
 import Link from 'next/link';
 
-export default function NavBar() {
+export function NavBar() {
   return (
     <Navbar expand="md">
       <Container>

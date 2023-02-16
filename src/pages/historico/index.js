@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 
-import { Container } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import { Table } from "@/components/table";
+import { Charts } from "@/components/Charts";
+import { Spiner } from '@/components/Spiner';
 
 import GeneralService from "@/Services/General.service";
 import Error from "@/pages/_error";
@@ -14,13 +16,32 @@ export default function History() {
     const [message, setMessage] = useState(null);
 
     useEffect(() => {
-        GeneralService.getHistorico().then((data) => {
-            setData(data);
-            setIsLoading(false);
-        }).catch((error) => {
-            setMessage(error.message);
-        });
+        const fetchData = () => {
+
+            GeneralService.getHistorial().then((data) => {
+                setData(data);
+                setIsLoading(false);
+            }).catch((error) => {
+                setMessage(error.message);
+            });
+
+        };
+
+        const intervalId = setInterval(() => {
+
+            fetchData();
+
+        }, 10000);
+
+        fetchData();
+        return () => clearInterval(intervalId);
     }, []);
+
+    if (isLoading) {
+        return (
+            <Spiner />
+        );
+    }
 
     if (message) {
         return (
@@ -35,23 +56,23 @@ export default function History() {
             sortable: true,
         },
         {
-            name: "Compra",
-            selector: row => trunc(row.compra),
+            name: "Precio",
+            selector: row => trunc(row.precio),
             sortable: true,
-        },
-        {
-            name: "Venta",
-            selector: row => trunc(row.venta),
-            sortable: true,
-        },
+        }
     ];
 
 
     return (
         <Container>
-            <h1 className="pb-2">Historico</h1>
-
-            <Table columns={columns} data={data} isLoading={isLoading} />
+            <h1 className="pb-2">Historial</h1>
+            
+            <Row className="pb-4">
+                <Charts data={data}/>
+            </Row>
+            <Row className="pb-5">
+                <Table columns={columns} data={data} isLoading={isLoading} />
+            </Row>
         </Container>
     )
 }

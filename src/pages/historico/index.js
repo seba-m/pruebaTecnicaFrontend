@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { Container, Row } from "react-bootstrap";
-import { Table } from "@/components/table";
+import { Table } from "@/components/Table";
 import { Charts } from "@/components/Charts";
 import { Spiner } from '@/components/Spiner';
 
